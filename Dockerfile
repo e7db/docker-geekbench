@@ -1,4 +1,4 @@
-FROM ubuntu:24.10 AS setup
+FROM ubuntu:rolling AS setup
 ARG VERSION
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -6,7 +6,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 COPY setup.sh /setup.sh
 RUN /setup.sh
 
-FROM ubuntu:24.10
+FROM ubuntu:rolling
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get upgrade -y && \

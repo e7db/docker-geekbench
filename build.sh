@@ -24,10 +24,10 @@ function to_docker_tags_param() {
     local VERSION=$1
     local ADDITIONAL_TAG=$2
 
-    local TAGS="--tag e7db/geekbench:${VERSION} --tag e7db/geekbench:${VERSION%.*} --tag e7db/geekbench:${VERSION%.*.*}"
+    local TAGS="--tag ${GHCR_IMAGE}:${VERSION} --tag ${GHCR_IMAGE}:${VERSION%.*} --tag ${GHCR_IMAGE}:${VERSION%.*.*} --tag ${DOCKERHUB_IMAGE}:${VERSION} --tag ${DOCKERHUB_IMAGE}:${VERSION%.*} --tag ${DOCKERHUB_IMAGE}:${VERSION%.*.*}"
 
     if [ ! -z "${ADDITIONAL_TAG}" ]; then
-        TAGS="${TAGS} --tag e7db/geekbench:${ADDITIONAL_TAG}"
+        TAGS="${TAGS} --tag ${GHCR_IMAGE}:${ADDITIONAL_TAG} --tag ${DOCKERHUB_IMAGE}:${ADDITIONAL_TAG}"
     fi
     echo ${TAGS}
 }
@@ -64,8 +64,8 @@ function build_image() {
     fi
     mkdir -p ${DIR}/build/geekbench${MAJOR_VERSION}
     docker buildx build \
-        --cache-from type=registry,ref=e7db/geekbench:${MAJOR_VERSION}-cache \
-        --cache-to type=registry,ref=e7db/geekbench:${MAJOR_VERSION}-cache \
+        --cache-from type=registry,ref=${GHCR_IMAGE}:${MAJOR_VERSION}-cache \
+        --cache-to type=registry,ref=${GHCR_IMAGE}:${MAJOR_VERSION}-cache \
         --file ${DIR}/Dockerfile \
         --metadata-file ${DIR}/build/geekbench${MAJOR_VERSION}/metadata.json \
         --output type=registry \
