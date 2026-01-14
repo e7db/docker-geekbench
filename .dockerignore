@@ -1,5 +1,9 @@
 build
 cache
+.git
+.github
+.gitignore
+.dockerignore
 build.sh
 LICENSE
 README.md
