@@ -96,9 +96,9 @@ jobs:
       # Trivy
       - name: Run Trivy vulnerability scanner
         if: ${{ matrix.scanner == 'trivy' }}
-        uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0 # 0.30.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          image-ref: ${{ vars.GHCR_IMAGE }}:sha-${{ github.sha }}
+          image-ref: ${{ vars.GHCR_IMAGE }}:latest
           format: sarif
           output: trivy-results.sarif
           severity: CRITICAL,HIGH,MEDIUM
@@ -113,7 +113,7 @@ jobs:
         id: grype
         uses: anchore/scan-action@abae793926ec39a78ab18002bc7fc45bbbd94342 # v6.0.0
         with:
-          image: ${{ vars.GHCR_IMAGE }}:sha-${{ github.sha }}
+          image: ${{ vars.GHCR_IMAGE }}:latest
           fail-build: false
           severity-cutoff: medium
       - name: Upload Grype scan results
